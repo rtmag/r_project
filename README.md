@@ -2,7 +2,7 @@
 
 ## Notes on how to access mutation data from TCGA.
 
-Hi guys. Some of you are familiar with the files that contain the mutation information, but to bring up everyone up to speed let me introduce some file formats. Note, you don't need to know about these file formats to work with them in R but thought it would be interesting for you all to learn. 
+Hi everyone. Some of you are familiar with the files that contain the mutation information, but to bring up everyone up to speed let me introduce some file formats. Note, you don't need to know about these file formats to work with them in R but thought it would be interesting for you all to learn. 
 
 #### Variant Call Format (VCF) file:
 
@@ -11,10 +11,6 @@ It has one mutation/variant per row and column 9 onwards has the information on 
 
 It looks like this:
 
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
 
 |CHROM |POS   |   ID       |  REF   |ALT    |QUAL  |FILTER   |INFO                             |FORMAT       |NA00001         |NA00002          |NA00003
 |-------|------|------------|-------|-------|-------|--------|---------------------------------|--------------|---------------|------------------|-------------|
@@ -22,15 +18,15 @@ Markdown | Less | Pretty
 |20     |17330    |.          |T     |A     | 3     |q10    | NS=3;DP=11;AF=0.017               |GT:GQ:DP:HQ  |0/0:49:3:58,50  |0/1:3:5:65,3    | 0/0:41:3
 |20     |1110696  |rs6040355  |A     |G,T   | 67    |PASS   | NS=2;DP=10;AF=0.333,0.667;AA=T;DB |GT:GQ:DP:HQ  |1/2:21:6:23,27  |2/1:2:0:18,2     |2/2:35:4
 
-As you can see, the first column tells in which chromosome a mutation is found.
-The second column, the position in the genome where the mutation is found.
-If the variant/mutation is known it will be reported in the 3rd column with the ID from the dbSNP database.
-Column 4 shows the nucleotide present in the reference genome.
-Column 5 is the mutation(somatic)/variant(germline) found.
-Column 6 (Qual) is a quality score associated with the algorithm used to find the variants/mutations.
-Column 7 (INFO) information regarding the identification of the variant, such as avg number of reads covering the mutation, how prevalent it is in the cohort.
-Column 8 (format) list of fields present in the sample information.
-Column 9 onwards will be the information on whether the mutation/variant is present for each sample in the cohort.
+- As you can see, the first column tells in which chromosome a mutation is found.
+- The second column, the position in the genome where the mutation is found.
+- If the variant/mutation is known it will be reported in the 3rd column with the ID from the dbSNP database.
+- Column 4 shows the nucleotide present in the reference genome.
+- Column 5 is the mutation(somatic)/variant(germline) found.
+- Column 6 (Qual) is a quality score associated with the algorithm used to find the variants/mutations.
+- Column 7 (INFO) information regarding the identification of the variant, such as avg number of reads covering the mutation, how prevalent it is in the cohort.
+- Column 8 (format) list of fields present in the sample information.
+- Column 9 onwards will be the information on whether the mutation/variant is present for each sample in the cohort.
 
 
 
