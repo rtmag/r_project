@@ -1,4 +1,4 @@
-# Repository to discuss analysis on the R project
+# Repository to discuss the analysis for the R project
 
 ## Notes on how to access mutation data from TCGA.
 
@@ -57,7 +57,25 @@ TCGA is organized by "cancer type" or "study". This means that we have a cohort 
 Downloading TCGA data is super easy with R, because there are many APIs (which are a set of functions to access the data in a database). Let me show you an example:
 
 ```R
+# First install the "BiocManager" package
+install.packages("BiocManager")
 
-code
+# Load BiocManager
+library(BiocManager)
+
+# Now, using BiocManager, install TCGAbiolinks and maftools
+BiocManager::install("TCGAbiolinks")
+BiocManager::install("maftools")
+```
+
+With this two libraries you can already download a MAF file for a particular cancer type and do cool explorations. Let's download the MAF file for TCGA Acute Myeloid Leukemia (abbreviation "LAML") just because is the first one on the list.
+
+```R
+# Load the TCGAbiolinks library
+library(TCGAbiolinks)
+
+# Using the function "GDCquery_Maf" from the library "TCGAbiolinks", download the MAF file for "LAML" that was created with the WES pipeline "muse"
+maf <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "muse")
+
 ```
 
