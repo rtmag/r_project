@@ -50,5 +50,5 @@ What it is worth noticing is that each row/line corresponds to a mutation/varian
 
 MAF files are the ones we need to obtain to perform many kind of analysis.
 
-### Easy download of TCGA MAF files using R.
+## Easy download of TCGA MAF files using R.
 
