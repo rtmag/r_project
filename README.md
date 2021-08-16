@@ -74,8 +74,25 @@ With this two libraries you can already download a MAF file for a particular can
 # Load the TCGAbiolinks library
 library(TCGAbiolinks)
 
-# Using the function "GDCquery_Maf" from the library "TCGAbiolinks", download the MAF file for "LAML" that was created with the WES pipeline "muse"
+# Using the function "GDCquery_Maf" from the library "TCGAbiolinks", 
+# download the MAF file for "LAML" that was created with the WES pipeline "muse".
 maf <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "muse")
-
 ```
 
+With this we have downloaded and loaded the entire MAF file into a tibble format (don't worry about what tibble is for now, it will be covered in another lesson).
+
+We can now use "maftools" to do some exploration and plots
+
+```R
+# Load the maftools library
+library(maftools)
+
+# import the MAF tibble into the maftools object
+laml = read.maf(maf = maf)
+
+# generate an oncoprint
+oncoplot(maf = laml, top = 10)
+
+# generate other summary plots
+plotmafSummary(maf = laml, rmOutlier = TRUE, addStat = 'median', dashboard = TRUE, titvRaw = FALSE)
+```
