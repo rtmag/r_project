@@ -56,6 +56,8 @@ TCGA is organized by "cancer type" or "study". This means that we have a cohort 
 
 Downloading TCGA data is super easy with R, because there are many APIs (which are a set of functions to access the data in a database). Let me show you an example:
 
-``
+```R
+
 code
-``
+```
+
