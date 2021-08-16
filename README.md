@@ -33,7 +33,9 @@ The issue with this format is that we have no information on whether a particula
 
 #### Mutation Annotation Format (MAF) file:
 
-MAF files are generated after annotating a VCF file. There are many tools to annotate a VCF (vcf2maf, oncotator, funcotator, etc...). Below, I 
+MAF files are generated after annotating a VCF file. There are many tools to annotate a VCF (vcf2maf, oncotator, funcotator, etc...). Below, I wrote a truncated MAF file with the most relevant columns (it is common to see MAF files with over 100 columns, but you will get the idea of what kind of information is included from this toy example). You can see that it includes information such as gene mutated, type of mutation, protein change and many other that I didn't include here like mutated exon, codon change, etc...
+
+What it is worth noticing is that each row/line corresponds to a mutation/variant found in a particular sample. So if a given gene, let's say WT1 is found mutated in 4 different samples in the cohort, you will have 4 lines with the mutation information (one line per sample).
 
 
 |Hugo_Symbol |Entrez_Gene_Id |Center            |NCBI_Build  |Chromosome   |Start_Position  |End_position |Strand  |Variant_Classification  |REF |ALT   |Barcode       |Protein_Change
@@ -44,3 +46,9 @@ MAF files are generated after annotating a VCF file. There are many tools to ann
 |WT1         |7490           |genome.wustl.edu  |37          |11           |32417910        |32417911     |+       |Frame_Shift_Ins INS     |-   |ACGG  |TCGA-AB-2844  |p.S169fs
 |WT1         |7490           |genome.wustl.edu  |37          |11           |32417909        |32417910     |+       |Frame_Shift_Ins INS     |A   |CGG   |TCGA-AB-2846  |p.S169fs-
 |WT1         |7490           |genome.wustl.edu  |37          |11           |32413566        |32413566     |+       |Missense_Mutation SNP   |T   |G     |TCGA-AB-2874  |p.R250W
+
+
+MAF files are the ones we need to obtain to perform many kind of analysis.
+
+### Easy download of TCGA MAF files using R.
+
