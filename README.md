@@ -100,3 +100,14 @@ plotmafSummary(maf = laml, rmOutlier = TRUE, addStat = 'median', dashboard = TRU
 ![oncoplot](https://user-images.githubusercontent.com/1195488/129607272-65a79c67-ef0e-4e23-a102-973a3e2f7314.png)
 ![summaryplot](https://user-images.githubusercontent.com/1195488/129607283-9db3d4dc-3276-49f0-952d-35cd80fbbae1.png)
 
+
+## Notes on how to check what is inside each "study" in TCGA:
+
+- First you must go to https://portal.gdc.cancer.gov/
+- Then on the website type the abbreviation of a cancer study and click on it:
+![stp1](https://user-images.githubusercontent.com/1195488/129608691-ab400264-6f8a-4da4-8688-e6d5bf399eb3.PNG)
+
+- In that page you will see how many samples are in that study, how many were sequenced with Whole Exome Sequnecing (WXS) and how many with RNA-Seq:
+![stp2](https://user-images.githubusercontent.com/1195488/129608807-50081a2c-48b8-4751-9073-4d7ab35e8533.PNG)
+
+
