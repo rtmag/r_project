@@ -52,3 +52,10 @@ MAF files are the ones we need to obtain to perform many kind of analysis.
 
 ## Easy download of TCGA MAF files using R.
 
+TCGA is organized by "cancer type" or "study". This means that we have a cohort for "Breast invasive carcinoma" samples, another for "Ovarian serous cystadenocarcinoma", other for "Prostate adenocarcinoma". All those studies are independent. The full list of studies can be found here together with their abbreviations: https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations
+
+Downloading TCGA data is super easy with R, because there are many APIs (which are a set of functions to access the data in a database). Let me show you an example:
+
+``
+code
+``
