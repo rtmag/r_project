@@ -10,10 +10,11 @@ This is the file that is produced by mutation/variation callers taking as an inp
 It has one mutation/variant per row and column 9 onwards has the information on whether a given sample in the cohort has that particular mutation.
 
 It looks like this:
-#CHROM POS      ID         REF   ALT    QUAL  FILTER   INFO                             FORMAT       NA00001         NA00002          NA00003
-20     14370    rs6054257  G     A      29    PASS    NS=3;DP=14;AF=0.5;DB;H2           GT:GQ:DP:HQ  0|0:48:1:51,51  1|0:48:8:51,51   1/1:43:5:.,.
-20     17330    .          T     A      3     q10     NS=3;DP=11;AF=0.017               GT:GQ:DP:HQ  0|0:49:3:58,50  0|1:3:5:65,3     0/0:41:3
-20     1110696  rs6040355  A     G,T    67    PASS    NS=2;DP=10;AF=0.333,0.667;AA=T;DB GT:GQ:DP:HQ  1|2:21:6:23,27  2|1:2:0:18,2     2/2:35:4
+|#CHROM |POS   |   ID       |  REF   |ALT    |QUAL  |FILTER   |INFO                             |FORMAT       |NA00001         |NA00002          |NA00003
+|---------------------------------------------------------------------------------------------------------------------------------------------------|
+|20     |14370    |rs6054257  |G    | A      |29    |PASS   | NS=3;DP=14;AF=0.5;DB;H2           |GT:GQ:DP:HQ  |0/0:48:1:51,51  |1/0:48:8:51,51   |1/1:43:5:.,.|
+|20     |17330    |.          |T     |A     | 3     |q10    | NS=3;DP=11;AF=0.017               |GT:GQ:DP:HQ  |0/0:49:3:58,50  |0/1:3:5:65,3    | 0/0:41:3
+|20     |1110696  |rs6040355  |A     |G,T   | 67    |PASS   | NS=2;DP=10;AF=0.333,0.667;AA=T;DB |GT:GQ:DP:HQ  |1/2:21:6:23,27  |2/1:2:0:18,2     |2/2:35:4
 
 As you can see, the first column tells in which chromosome a mutation is found.
 The second column, the position in the genome where the mutation is found.
