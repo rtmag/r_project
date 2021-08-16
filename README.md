@@ -10,6 +10,7 @@ This is the file that is produced by mutation/variation callers taking as an inp
 It has one mutation/variant per row and column 9 onwards has the information on whether a given sample in the cohort has that particular mutation.
 
 It looks like this:
+
 |#CHROM |POS   |   ID       |  REF   |ALT    |QUAL  |FILTER   |INFO                             |FORMAT       |NA00001         |NA00002          |NA00003
 |---------------------------------------------------------------------------------------------------------------------------------------------------|
 |20     |14370    |rs6054257  |G    | A      |29    |PASS   | NS=3;DP=14;AF=0.5;DB;H2           |GT:GQ:DP:HQ  |0/0:48:1:51,51  |1/0:48:8:51,51   |1/1:43:5:.,.|
