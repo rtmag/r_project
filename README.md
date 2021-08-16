@@ -68,7 +68,7 @@ BiocManager::install("TCGAbiolinks")
 BiocManager::install("maftools")
 ```
 
-With this two libraries you can already download a MAF file for a particular cancer type and do cool explorations. Let's download the MAF file for TCGA Acute Myeloid Leukemia (abbreviation "LAML") just because is the first one on the list.
+With these two libraries you can already download a MAF file for a particular cancer type and do cool explorations. Let's download the MAF file for TCGA Acute Myeloid Leukemia (abbreviation "LAML") just because is the first one on the list.
 
 ```R
 # Load the TCGAbiolinks library
@@ -80,7 +80,7 @@ library(TCGAbiolinks)
 maf_tibble <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "mutect2")
 ```
 
-With this we have downloaded and loaded the entire MAF file into a tibble format (don't worry about what tibble is for now, it will be covered in another lesson).
+Ee have downloaded and loaded the entire MAF file into a tibble format (don't worry about what tibble is for now, it will be covered in another lesson).
 
 We can now use "maftools" to do some exploration and plots
 
