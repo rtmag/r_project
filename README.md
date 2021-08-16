@@ -1,2 +1,3 @@
-# r_project
-repository to discuss the R project
+# Repository to discuss analysis on the R project
+
+## Notes on how to access mutation data from TCGA.
