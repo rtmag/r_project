@@ -1,24 +1,33 @@
 # Load TCGAbiolinks to access and download TCGA data
 library(TCGAbiolinks)
-
 # Load maftools that has functions to manipulate maf files
 library(maftools)
 
+laml_maf_tibble <- TCGAbiolinks::GDCquery_Maf("COAD", pipelines = "mutect2")
+colnames(laml_maf_tibble)[colnames(laml_maf_tibble) %in% 'HGVSp_Short'] <- "Protein_Change"
 
-laml_maf_tibble <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "mutect2")
-
-
-laml_clinical <- GDCquery_clinic(project = "TCGA-LAML", type = "clinical")
+laml_clinical <- GDCquery_clinic(project = "TCGA-COAD", type = "clinical")
 colnames(laml_clinical)[1] <- "Tumor_Sample_Barcode"
-
 
 laml = read.maf(maf = laml_maf_tibble, clinicalData = laml_clinical)
 
-
-#lollipop plot for DNMT3A, which is one of the most frequent mutated gene in Leukemia.
 lollipopPlot(
   maf = laml,
   gene = 'DNMT3A',
   AACol = 'Protein_Change',
   showMutationRate = TRUE
-  )
+)
+
+
+somaticInteractions(maf = laml, top = 25, pvalue = c(0.05, 0.1))
+
+
+mafSurvival(maf = laml, 
+            genes = 'TP53', 
+            time = 'days_to_last_follow_up', 
+            Status = 'vital_status', 
+            )
+
+
+
+maf_as_dataframe<- head(as.data.frame(laml_maf_tibble))
