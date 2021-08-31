@@ -9,6 +9,16 @@ laml_maf_tibble <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "mutect2")
 
 
 laml_clinical <- GDCquery_clinic(project = "TCGA-LAML", type = "clinical")
+colnames(laml_clinical)[1] <- "Tumor_Sample_Barcode"
 
 
 laml = read.maf(maf = laml_maf_tibble, clinicalData = laml_clinical)
+
+
+#lollipop plot for DNMT3A, which is one of the most frequent mutated gene in Leukemia.
+lollipopPlot(
+  maf = laml,
+  gene = 'DNMT3A',
+  AACol = 'Protein_Change',
+  showMutationRate = TRUE
+  )
