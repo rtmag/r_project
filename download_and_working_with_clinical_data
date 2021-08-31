@@ -9,3 +9,6 @@ laml_maf_tibble <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "mutect2")
 
 
 laml_clinical <- GDCquery_clinic(project = "TCGA-LAML", type = "clinical")
+
+
+laml = read.maf(maf = laml_maf_tibble, clinicalData = laml_clinical)
