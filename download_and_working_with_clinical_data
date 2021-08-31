@@ -1,0 +1,11 @@
+# Load TCGAbiolinks to access and download TCGA data
+library(TCGAbiolinks)
+
+# Load maftools that has functions to manipulate maf files
+library(maftools)
+
+
+laml_maf_tibble <- TCGAbiolinks::GDCquery_Maf("LAML", pipelines = "mutect2")
+
+
+laml_clinical <- GDCquery_clinic(project = "TCGA-LAML", type = "clinical")
