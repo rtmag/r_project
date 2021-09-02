@@ -50,10 +50,10 @@ oncomatrix_char <- oncomatrix$oncoMatrix
 # If you check the content with head(); you will see that the matrix denotes the type of mutation a patient has in a given gene.
 # Notice that a "" indicates no mutation for that patient in that gene.
 head(oncomatrix_char)
-#          TCGA-AB-2818        TCGA-AB-2859        TCGA-AB-2895        TCGA-AB-2919        TCGA-AB-2945       
-# DNMT3A "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
-# FLT3   "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
-# NPM1   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   ""  
+#               TCGA-AB-2818        TCGA-AB-2859        TCGA-AB-2895        TCGA-AB-2919        TCGA-AB-2945       
+# TP53   "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
+# PIK3CA "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
+# TTN      "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   ""  
 
 # The numeric oncomatrix contains the same information; only that it is encoded in numerical form.
 # We can extract the numeric oncomatrix with this line:
@@ -63,9 +63,9 @@ oncomatrix_num <- oncomatrix$numericMatrix
 head(oncomatrix_num)
 
 #          TCGA-AB-2818 TCGA-AB-2859 TCGA-AB-2895 TCGA-AB-2919 TCGA-AB-2945 TCGA-AB-2861 TCGA-AB-2925 TCGA-AB-2931 TCGA-AB-2802
-# DNMT3A            1            1            1            1            1            5            1            1            1
-# FLT3              1            1            1            1            1            0            0            0            0
-# NPM1              2            2            2            2            0            2            2            2            0
+# TP53            1            1            1            1            1            5            1            1            1
+# PIK3CA          1            1            1            1            1            0            0            0            0
+# TTN             2            2            2            2            0            2            2            2            0
 
 # The code annotation is stored in the oncomatrix variant:
 oncomatrix$vc
@@ -83,5 +83,43 @@ oncomatrix$vc
 
 With the data in this matrix format, we can start to do some exploration, with some of the functions we saw in class:
 ```R
+# We can see the distribution of TP53 mutations in the breast cancer cohort; 
+# notice that the first 358 with no label on top means that there are 358 patients with no TP53 mutation.
 
+table( oncomatrix_char["TP53",] )
+
+#                    Frame_Shift_Del   Frame_Shift_Ins      In_Frame_Del Missense_Mutation         Multi_Hit 
+#              358                46                15                 5               198                 6 
+# Nonsense_Mutation       Splice_Site 
+#               43                25 
+
+# If we store the results of table() in a variable we can add a name to that column:
+# Save the results in a table
+tp53_table = table( oncomatrix_char["TP53",] )
+
+# the function names() let's us access or modify the names
+names(tp53_table)
+# [1] "In_Frame_Del"      "Multi_Hit"         "Frame_Shift_Ins"   "Splice_Site"       "Nonsense_Mutation" "Frame_Shift_Del"  
+# [7] "Missense_Mutation" ""   
+
+# Position 8 "" is the one lacking a name; we can set a name like this:
+names(tp53_table)[8] <- "No_Mutation"
+
+# We can sort the values by frequency with the function sort()
+tp53_table <- sort(tp53_table)
+
+# Lastly if we conver this into data.frame, we can plot it using ggplots as we saw in class.
+tp53_df <- as.data.frame(tp53_table)
+
+# Change the column names of the data frame
+colnames(tp53_df) <- c("type","freq")
+
+# Plot with ggplots2
+library(ggplot2)
+p<-ggplot(data=tp53_df, aes(x=type, y=freq)) +
+  geom_bar(stat="identity", fill="steelblue")+
+  theme_minimal() + ggtitle("TP53 mutation distribution")
+p
 ```
+
+![tp53_mutation_dist_brca](https://user-images.githubusercontent.com/1195488/131877413-224af449-e753-4758-ae57-33704dae1a9a.png)
