@@ -1,3 +1,9 @@
+# Downloading and working with clinical data
+
+Hi guys, sorry that I was a bit quiet for the past 2 weeks, I was super busy with work but now it is better. 
+Today's talk was cool and thought I could show you how to get this kind of data.
+
+```R
 # Load TCGAbiolinks to access and download TCGA data
 library(TCGAbiolinks)
 # Load maftools that has functions to manipulate maf files
@@ -31,3 +37,4 @@ mafSurvival(maf = laml,
 
 
 maf_as_dataframe<- head(as.data.frame(laml_maf_tibble))
+```
