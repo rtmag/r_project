@@ -40,12 +40,54 @@ table(brca_clinical$gender)
 #  1085     12 
 # Although a bit surprising, you can see men do get breast cancer, only that in low frequency.
 
-# For numerical data we can use summarize; lets check the age of the patients
+# For numerical data we can use summarize; let's check 
+# what is the age that patients were diagnosed with cancer
+
+# To accomplish that, we substract the year when they were diagnosed - the year of birth;
+# and summarize the results with summary
+summary( brca_clinical$year_of_diagnosis - brca_clinical$year_of_birth )
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#  26.00   49.00   58.00   58.46   67.00   90.00       4
+
+# It seems like most of the patients were diagnosed with breast cancer around the age of 58.
+
+# another way to do the same exploratory analysis is to take the "age_at_diagnosis" column
+# just be aware that the info is in days so we need to divide by 365 to get the years
+summary(brca_clinical$age_at_diagnosis/365)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+# 26.59   49.39   59.07   59.14   68.13   90.06      16 
+
+```
+
+With this clinical data, we can already do lots of exploration like for example if radiation therapy increases the survival of the patients
+```R
+# As we saw in class today, the column "days_to_last_follow_up" collects the data of 
+# when was the last visit of a patient to the clinic after the initial diagnosis.
+# we can integrate this data with the information on whether a patient recieved radiation therapy
+# to see if we see a diffence between patients that recieved the therapy vs not getting it.
+
+# We can do a plot like we did in class:
+library(ggplot2)
+
+ggplot(brca_clinical, aes(y=days_to_last_follow_up, fill=treatments_radiation_treatment_or_therapy)) +
+  geom_boxplot() 
+```
+![radiation](https://user-images.githubusercontent.com/1195488/131886569-74a7d4a9-f57a-48c9-9dd0-9687de3ff42d.png)
+
+The data seems to show that patients that received radiation therapy live slightly longer.
+
+What about drug or chemotherapy?
+
+```R
+# The information on drug or chemotherapy is stored in the column: "treatments_pharmaceutical_treatment_or_therapy"
+ggplot(brca_clinical, aes(y=days_to_last_follow_up, fill=treatments_pharmaceutical_treatment_or_therapy)) +
+  geom_boxplot() 
+```
+![drugtherapy](https://user-images.githubusercontent.com/1195488/131886698-35df6c3a-5574-44c2-88fa-2e36b973f58f.png)
 
 
 
-
-
+```R
 
 mafSurvival(maf = laml, 
             genes = 'TP53', 
