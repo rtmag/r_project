@@ -80,3 +80,8 @@ oncomatrix$vc
 # etc ...
 
 ```
+
+With the data in this matrix format, we can start to do some exploration, with some of the functions we saw in class:
+```R
+
+```
