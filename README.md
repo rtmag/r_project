@@ -4,9 +4,9 @@
 
 Hi guys, sorry that I was a bit quiet for the past 2 weeks, I was super busy with work but now it is better. Today's talk was cool and thought I could show you how to get this kind of data and a couple of other analysis. Please take a look at the posts I just created, I think it is better if you read them in this order:
 
-1) https://github.com/rtmag/r_project/blob/main/accessing_mutation_data_MAF.md
+1. https://github.com/rtmag/r_project/blob/main/accessing_mutation_data_MAF.md
 
-2)https://github.com/rtmag/r_project/blob/main/download_and_working_with_clinical_data.md
+2. https://github.com/rtmag/r_project/blob/main/download_and_working_with_clinical_data.md
 
 
 ## Notes on how to access mutation data from TCGA.
