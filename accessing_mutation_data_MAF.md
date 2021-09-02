@@ -16,7 +16,7 @@ library(maftools)
 source("https://raw.githubusercontent.com/PoisonAlien/maftools/master/R/oncomatrix.R")
 ```
 
-Now we can get some data. Notice that after playing with the functions for a while, I added some lines to format the data slightly.
+We can get some data. Notice that after playing with the functions for a while, I added some lines to format the data slightly.
 ```R
 # Let's download the breast cancer dataset
 maf_tibble <- TCGAbiolinks::GDCquery_Maf("BRCA", pipelines = "mutect2")
@@ -33,4 +33,26 @@ colnames(maf_tibble)[colnames(maf_tibble) %in% 'HGVSp_Short'] <- "Protein_Change
 # and the rest is other codes that indicate if the sample comes from an RNA-Seq, Sequencing or any other experiment.
 # In any case, the program expects to have only the patient ID part of the code, thus, the line below removes all the characters after the third "-".
 maf_tibble[,"Tumor_Sample_Barcode"] <- lapply(maf_tibble[,"Tumor_Sample_Barcode"], function(x) substr(x, 1, 12) )
+
+# The maf tibble is ready to be read by maftools
+maf = read.maf(maf = maf_tibble)
+```
+
+Now we can use the function we loaded from the internet to generate a matrix of gene mutations (rows) by samples (columns).
+```R
+# The function createOncoMatrix creates the matrix with rows of the genes we provide (in this case 3 genes) and the samples are in columns. Inside, the content of the matrix indicates if a given sample is mutated in a given gene.
+oncomatrix <- createOncoMatrix(maf, c('DNMT3A','FLT3','NPM1'))
+
+# The oncomatrix variable has two matrices with the same information; one written in character and another with numbers encoding the information.
+# to get the oncomatrix written in characters you can do this
+oncomatrix_char <- oncomatrix$oncomatrix
+
+# If you check the content with head(); you will see that the matrix denotes the type of mutation a patient has in a given gene.
+# Notice that a "" indicates no mutation for that patient in that gene.
+head(oncomatrix_char)
+#          TCGA-AB-2818        TCGA-AB-2859        TCGA-AB-2895        TCGA-AB-2919        TCGA-AB-2945       
+# DNMT3A "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
+# FLT3   "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
+# NPM1   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   ""  
+
 ```
