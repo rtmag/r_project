@@ -41,7 +41,7 @@ maf = read.maf(maf = maf_tibble)
 Now we can use the function we loaded from the internet to generate a matrix of gene mutations (rows) by samples (columns).
 ```R
 # The function createOncoMatrix creates the matrix with rows of the genes we provide (in this case 3 genes) and the samples are in columns. Inside, the content of the matrix indicates if a given sample is mutated in a given gene.
-oncomatrix <- createOncoMatrix(maf, c('DNMT3A','FLT3','NPM1'))
+oncomatrix <- createOncoMatrix(maf, c('TP53','PIK3CA','TTN','CDH1'))
 
 # The oncomatrix variable has two matrices with the same information; one written in character and another with numbers encoding the information.
 # to get the oncomatrix written in characters you can do this
