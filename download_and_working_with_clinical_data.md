@@ -94,19 +94,41 @@ We can do surival analysis dividing the patients based on gene mutation like we 
 # Load the maftools library
 library(maftools)
 
+# Load the BRCA mutation maf dataset
+maf_tibble <- TCGAbiolinks::GDCquery_Maf("BRCA", pipelines = "mutect2")
+
+# Remember to parse the ID of the maf tibble
+maf_tibble[,"Tumor_Sample_Barcode"] <- lapply(maf_tibble[,"Tumor_Sample_Barcode"], function(x) substr(x, 1, 12) )
+
 # You might remember that there is a censor variable indicating if we have information on whether the patient
 # is alive or deceased; in our clinical data the column is called "vital_status"; with the values "Alive" or "Dead"
 # However, the survival analysis function of maftools expects values in binary form:
 # where alive=0 and dead=1
 
+# Therefore we need to add a new column into our clinical data frame, were we transform the "Alive" or "Dead" values to 0 or 1.
+# To accomplish that we use the code below. I am afraid this is a bit more advanced so please remind me to explain this in one of our upcoming meetings:
+vital_status_binary <- brca_clinical$vital_status
+vital_status_binary[vital_status_binary == "Alive"] <- 0
+vital_status_binary[vital_status_binary == "Dead"] <- 1
+vital_status_binary <- as.numeric(vital_status_binary)
 
-mafSurvival(maf = laml, 
-            genes = 'TP53', 
+# We create a data.frame with all the previous data.frame columns + the new vital_status_binary column
+brca_clinical <- data.frame(brca_clinical, vital_status_binary )
+
+# Before we can integrate with the mutation data in the maf file we need to change the name of the column ID to match the same name in the maf file
+colnames(brca_clinical)[1] <- "Tumor_Sample_Barcode"
+
+# Now we can integrate the data with the maftools function to read maf
+brca_maf = read.maf(maf = maf_tibble, clinicalData = brca_clinical)
+
+# And we can plot survival curves with the following function
+par(mfrow=c(1,1)) # you can re-set the ploting parameter with this command if needed 
+mafSurvival(maf = brca_maf, 
+            genes = 'PIK3CA', 
             time = 'days_to_last_follow_up', 
-            Status = 'vital_status', 
-            )
+            Status = 'vital_status_binary', 
+)
 
-
-
-maf_as_dataframe<- head(as.data.frame(laml_maf_tibble))
 ```
+![surv](https://user-images.githubusercontent.com/1195488/131892426-16f9e84a-fd4f-4ba6-a02b-bcb120a9d984.png)
+
