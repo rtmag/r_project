@@ -86,8 +86,19 @@ ggplot(brca_clinical, aes(y=days_to_last_follow_up, fill=treatments_pharmaceutic
 ![drugtherapy](https://user-images.githubusercontent.com/1195488/131886698-35df6c3a-5574-44c2-88fa-2e36b973f58f.png)
 
 
+### Survival analysis 
+
+We can do surival analysis dividing the patients based on gene mutation like we saw in class today. maftools has a function that does this analysis even much easier that the code we saw in class. check it down below:
 
 ```R
+# Load the maftools library
+library(maftools)
+
+# You might remember that there is a censor variable indicating if we have information on whether the patient
+# is alive or deceased; in our clinical data the column is called "vital_status"; with the values "Alive" or "Dead"
+# However, the survival analysis function of maftools expects values in binary form:
+# where alive=0 and dead=1
+
 
 mafSurvival(maf = laml, 
             genes = 'TP53', 
