@@ -45,7 +45,7 @@ oncomatrix <- createOncoMatrix(maf, c('DNMT3A','FLT3','NPM1'))
 
 # The oncomatrix variable has two matrices with the same information; one written in character and another with numbers encoding the information.
 # to get the oncomatrix written in characters you can do this
-oncomatrix_char <- oncomatrix$oncomatrix
+oncomatrix_char <- oncomatrix$oncoMatrix
 
 # If you check the content with head(); you will see that the matrix denotes the type of mutation a patient has in a given gene.
 # Notice that a "" indicates no mutation for that patient in that gene.
@@ -54,5 +54,29 @@ head(oncomatrix_char)
 # DNMT3A "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
 # FLT3   "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation" "Missense_Mutation"
 # NPM1   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   "Frame_Shift_Ins"   ""  
+
+# The numeric oncomatrix contains the same information; only that it is encoded in numerical form.
+# We can extract the numeric oncomatrix with this line:
+oncomatrix_num <- oncomatrix$numericMatrix
+
+# Taking a quick look with head() shows the same matrix but with numbers
+head(oncomatrix_num)
+
+#          TCGA-AB-2818 TCGA-AB-2859 TCGA-AB-2895 TCGA-AB-2919 TCGA-AB-2945 TCGA-AB-2861 TCGA-AB-2925 TCGA-AB-2931 TCGA-AB-2802
+# DNMT3A            1            1            1            1            1            5            1            1            1
+# FLT3              1            1            1            1            1            0            0            0            0
+# NPM1              2            2            2            2            0            2            2            2            0
+
+# The code annotation is stored in the oncomatrix variant:
+oncomatrix$vc
+#                  0                   1                   2                   3                   4                   5 
+#                 "" "Missense_Mutation"   "Frame_Shift_Ins"       "Splice_Site"      "In_Frame_Ins" "Nonsense_Mutation" 
+#                  6                   7 
+#  "Frame_Shift_Del"         "Multi_Hit" 
+
+# 0 = no mutation
+# 1 = missesnse mutation
+# 2 = Frame shift insertion
+# etc ...
 
 ```
