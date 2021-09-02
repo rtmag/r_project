@@ -154,7 +154,7 @@ lollipopPlot(
 ##### Mutual-exclusity / co-occurrence in mutations
 ```R
 # This plot shows if a particular gene is found to be mutated together with another gene across many tumors (or if their mutations are mutually exclusive)
-somaticInteractions(maf = maf, top = 25, pvalue = c(0.05, 0.1))
+somaticInteractions(maf = maf, top = 15, pvalue = c(0.05, 0.1))
 ```
 ![coOcurrance](https://user-images.githubusercontent.com/1195488/131879632-194beca9-5695-4ff0-bfb3-30c49c6c9b6b.png)
 
