@@ -1,3 +1,7 @@
+Hello everyone, here is the example code for how to have an overview of alll the mutationsof a particular gene across all the different cancer types in TCGA:
+
+First we need to download and save the MAF files in your local machine to avoid downloading them everytime.
+
 ```R
 # Load TCGAbiolinks to access and download TCGA data
 library(TCGAbiolinks)
@@ -41,6 +45,8 @@ oncoplot(maf = maf_list[[1]], top = 10)
 
 ![Rplot](https://user-images.githubusercontent.com/1195488/133899519-7a36833d-7a0a-4f9f-936a-d0e5302b57b5.png)
 
+With this file on your computer we can have a look on how are the mutations distributed for a given gene across all cancer types: 
+
 ```R
 # import the oncomatrix function from the github repository
 source("https://raw.githubusercontent.com/PoisonAlien/maftools/master/R/oncomatrix.R")
@@ -64,17 +70,16 @@ for(i in 1:length(maf_list)){
 # rename the columnbs of the resulting dataframe
 colnames(oncomatrix_table_df) <- c("project","alteration_type")
 
-# re-shape the table into a 
+# re-shape the table to add a count of how many of each alteration types are there per project (cancer type)
 oncomatrix_table_df <- aggregate(oncomatrix_table_df, by=list(oncomatrix_table_df$project, oncomatrix_table_df$alteration_type), FUN=length)
 
-# re-name the first two columns
+# re-name the first 3 columns
 colnames(oncomatrix_table_df)[1] <- "project"
 colnames(oncomatrix_table_df)[2] <- "alteration_type"
 colnames(oncomatrix_table_df)[3] <- "freq"
 
-# remove the repeated columns
+# just keep the first 3 columns
 oncomatrix_table_df <- oncomatrix_table_df[,c(1,2,3)]
-
 
 # load ggplot2
 library(ggplot2)
