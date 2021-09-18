@@ -1,6 +1,6 @@
 Hello everyone, here is the example code for how to have an overview of alll the mutationsof a particular gene across all the different cancer types in TCGA:
 
-First we need to download and save the MAF files in your local machine to avoid downloading them everytime.
+- First we need to download and save the MAF files in your local machine to avoid downloading them everytime.
 
 ```R
 # Load TCGAbiolinks to access and download TCGA data
