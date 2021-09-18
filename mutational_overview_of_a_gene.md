@@ -45,7 +45,7 @@ oncoplot(maf = maf_list[[1]], top = 10)
 
 ![Rplot](https://user-images.githubusercontent.com/1195488/133899519-7a36833d-7a0a-4f9f-936a-d0e5302b57b5.png)
 
-With this file on your computer we can have a look on how are the mutations distributed for a given gene across all cancer types: 
+- With this file on your computer we can have a look on how are the mutations distributed for a given gene across all cancer types: 
 
 ```R
 # import the oncomatrix function from the github repository
