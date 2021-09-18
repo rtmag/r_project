@@ -155,4 +155,4 @@ ggplot(data=oncomatrix_table_df, aes(x=reorder(project, -perc,sum), y=perc, fill
   labs(title="Overview of TP53 mutations in cancer" , y = "Alteration in cancer type (%)", x = "TCGA projects")
 
 ```
-![TP53_tcga_mut](https://user-images.githubusercontent.com/1195488/133907905-edbeadf6-3f32-4d54-8a24-78ff29ff7c79.png)
+![tp53_mutation_allcancer_percentage](https://user-images.githubusercontent.com/1195488/133907915-68056146-ade7-49db-b5a8-964784bbebc9.png)
