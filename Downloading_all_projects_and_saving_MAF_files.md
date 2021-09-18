@@ -1,3 +1,4 @@
+```R
 # Load TCGAbiolinks to access and download TCGA data
 library(TCGAbiolinks)
 # Load maftools that has functions to manipulate maf files
@@ -36,3 +37,7 @@ print(tcga_projects[1])
 
 # You can access each MAF in the list with maf_list[[n]], where n is a number in the list, for example:
 oncoplot(maf = maf_list[[1]], top = 10)
+```
+
+![Rplot](https://user-images.githubusercontent.com/1195488/133899519-7a36833d-7a0a-4f9f-936a-d0e5302b57b5.png)
+
