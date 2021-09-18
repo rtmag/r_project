@@ -152,7 +152,8 @@ library(ggplot2)
 # Stacked barplot with multiple groups
 ggplot(data=oncomatrix_table_df, aes(x=reorder(project, -perc,sum), y=perc, fill=alteration_type)) +
   geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs(title="Overview of TP53 mutations in cancer" , y = "Alteration in cancer type (%)", x = "TCGA projects")
+  labs(title="Overview of TP53 mutations in cancer" , y = "perc (%) of cancer patients with the gene alteration", x = "TCGA projects")
 
 ```
-![tp53_mutation_allcancer_percentage](https://user-images.githubusercontent.com/1195488/133907915-68056146-ade7-49db-b5a8-964784bbebc9.png)
+![perc_patients_withalt](https://user-images.githubusercontent.com/1195488/133907990-2ce487d3-e24a-4dac-85ee-688ac7bdc5fc.png)
+
