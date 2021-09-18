@@ -13,7 +13,7 @@ maf_list <- list()
 for(i in 1:length(tcga_projects) )
 {
   # Read Download the MAF tibble
-  maf_tibble <- TCGAbiolinks::GDCquery_Maf(gsub("TCGA-","",tcga[i]), pipelines = "mutect2")
+  maf_tibble <- TCGAbiolinks::GDCquery_Maf(gsub("TCGA-","",tcga_projects[i]), pipelines = "mutect2")
   # Parse it a bit
   colnames(maf_tibble)[colnames(maf_tibble) %in% 'HGVSp_Short'] <- "Protein_Change"
   maf_tibble[,"Tumor_Sample_Barcode"] <- lapply(maf_tibble[,"Tumor_Sample_Barcode"], function(x) substr(x, 1, 12) )
