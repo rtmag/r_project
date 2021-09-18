@@ -92,3 +92,7 @@ ggplot(data=oncomatrix_table_df, aes(x=reorder(project, -freq,sum), y=freq, fill
 ```
 ![TP53_tcga_mut](https://user-images.githubusercontent.com/1195488/133906603-71d9a033-fa23-4a2d-8107-38fb04bbdf03.png)
 
+
+- To be completely honest, the block on top is kind of an exercise in futility because we already have the counts for mutation_type for each gene in the MAF files, but I wanted to show you all how you can get the counts directly from the oncomatrix. 
+- The pre-computed counts of mutation_type per gene can be accessed with `maf_list[[n]]@gene.summary`.
+- Additionally, we can get the total number of samples per project by accessing the clinical data data.frame inside the maf object. The dim() function  `dim(maf_list[[n]]@clinical.data)[1]`
