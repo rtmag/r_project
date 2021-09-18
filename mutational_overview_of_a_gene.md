@@ -93,6 +93,66 @@ ggplot(data=oncomatrix_table_df, aes(x=reorder(project, -freq,sum), y=freq, fill
 ![TP53_tcga_mut](https://user-images.githubusercontent.com/1195488/133906603-71d9a033-fa23-4a2d-8107-38fb04bbdf03.png)
 
 
-- To be completely honest, the block on top is kind of an exercise in futility because we already have the counts for mutation_type for each gene in the MAF files, but I wanted to show you all how you can get the counts directly from the oncomatrix. 
-- The pre-computed counts of mutation_type per gene can be accessed with `maf_list[[n]]@gene.summary`.
-- Additionally, we can get the total number of samples per project by accessing the clinical data data.frame inside the maf object. The dim() function  `dim(maf_list[[n]]@clinical.data)[1]`
+- We can get the total number of samples per project by accessing the clinical data data.frame inside the maf object. The following line returns the number of samples for the "n" project `dim(maf_list[[n]]@clinical.data)[1]`. The function `dim()` returns a vector with the dimensions of a data.frame in R, with the first element in the vector being the number of rows and the second element being the number of columns.
+- With the number of samples and the alteration_type counts per gene, we can re-do the plot from above but instead looking at the percentage of affected individuals in the different cancer cohorts.
+
+```R
+# import the oncomatrix function from the github repository
+source("https://raw.githubusercontent.com/PoisonAlien/maftools/master/R/oncomatrix.R")
+
+# read all the 33 maf
+maf_list <- readRDS("/astar/r_proj/maflist.RDS")
+
+# Check the mutation frequency of a given gene across all the cohorts:
+gene_of_interest <- "TP53"
+
+oncomatrix_table_df <- data.frame()
+for(i in 1:length(maf_list)){
+  # This line extracts the oncomatrix in character format directly for the gene_of_interest 
+  oncomatrix <- createOncoMatrix( maf_list[[i]],  gene_of_interest)$oncoMatrix
+  if( !is.null(oncomatrix) ){
+    oncomatrix_table <- cbind(tcga_projects[i], as.character(oncomatrix) )
+    oncomatrix_table_df <- rbind(oncomatrix_table_df, oncomatrix_table)
+  }
+}
+
+# rename the columnbs of the resulting dataframe
+colnames(oncomatrix_table_df) <- c("project","alteration_type")
+
+# re-shape the table to add a count of how many of each alteration types are there per project (cancer type)
+oncomatrix_table_df <- aggregate(oncomatrix_table_df, by=list(oncomatrix_table_df$project, oncomatrix_table_df$alteration_type), FUN=length)
+
+# re-name the first 3 columns
+colnames(oncomatrix_table_df)[1] <- "project"
+colnames(oncomatrix_table_df)[2] <- "alteration_type"
+colnames(oncomatrix_table_df)[3] <- "freq"
+
+# just keep the first 3 columns 
+oncomatrix_table_df <- oncomatrix_table_df[,c(1,2,3)]
+
+# divide the alteration_type counts by sample size
+# initialize a column of frequency percentage %
+oncomatrix_table_df$perc <- 0
+for(i in 1:length(maf_list)){
+  # extract the sample size
+  sample_size <- dim(maf_list[[i]]@clinical.data)[1]
+  # tcga project name
+  tcga_name <- tcga_projects[i]
+
+  # divide the counts by sample size
+  perc_values <- round(oncomatrix_table_df$freq[oncomatrix_table_df$project==tcga_name]*100/sample_size,digits = 2)
+  # add the frequency percentage % values into the main table 
+  oncomatrix_table_df$perc[oncomatrix_table_df$project==tcga_name] <- perc_values 
+}
+
+
+# load ggplot2
+library(ggplot2)
+
+# Stacked barplot with multiple groups
+ggplot(data=oncomatrix_table_df, aes(x=reorder(project, -perc,sum), y=perc, fill=alteration_type)) +
+  geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(title="Overview of TP53 mutations in cancer" , y = "Alteration in cancer type (%)", x = "TCGA projects")
+
+```
+![TP53_tcga_mut](https://user-images.githubusercontent.com/1195488/133907905-edbeadf6-3f32-4d54-8a24-78ff29ff7c79.png)
