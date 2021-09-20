@@ -307,7 +307,9 @@ dotplot(GO_BP, showCategory=15, includeAll=FALSE)
 ```
 ![gobp_coad_rnaseq](https://user-images.githubusercontent.com/1195488/134075632-a9e8e891-d686-4bf3-b0f8-30d785207d1a.png)
 
-according to gene onlogies (BP) genes that are highly expressed in tumors are involved in processes of epitelial regulation, this could point out towards an early process of the epithelial-to-mesenchymal transition. Genes that are highly expressed in tumor are involved in immune cell recruitmen, having such genes expressed in cancer cells would make immune system evasion more difficult for tumors.
+According to gene onlogies (BP) genes that are highly expressed in tumors are involved in processes of epitelial regulation, this could point out towards an early process of the epithelial-to-mesenchymal transition. Genes that are highly expressed in tumor are involved in immune cell recruitmen, having such genes expressed in cancer cells would make immune system evasion more difficult for tumors.
+
+We 
 
 ```R
 kegg = compareCluster(geneEntrez, fun="enrichKEGG", organism = "human")
