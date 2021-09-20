@@ -134,7 +134,8 @@ plotPCA(dds_vst, intgroup=c("sample_type"))
 - Let's take a look at the table with the DEA results
 
 ```R
-
+head(dds_res)
+```
 |        |  baseMean |log2FoldChange|lfcSE   |  stat   |  pvalue   |    padj |
 |-------|---------|---------------|----------|---------|-----------|---------|
 |       | <numeric>|  <numeric>   |<numeric> |<numeric>|  <numeric>|<numeric>|
