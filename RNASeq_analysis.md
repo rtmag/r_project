@@ -309,7 +309,7 @@ dotplot(GO_BP, showCategory=15, includeAll=FALSE)
 
 According to gene onlogies (BP) genes that are highly expressed in tumors are involved in processes of epitelial regulation, this could point out towards an early process of the epithelial-to-mesenchymal transition. Genes that are highly expressed in tumor are involved in immune cell recruitmen, having such genes expressed in cancer cells would make immune system evasion more difficult for tumors.
 
-We 
+We can perform the pathway analysis with a different database, in this case KEGG, let's observe the results:
 
 ```R
 kegg = compareCluster(geneEntrez, fun="enrichKEGG", organism = "human")
@@ -318,3 +318,5 @@ dotplot(kegg, showCategory=15, includeAll=FALSE)
 ```
 ![kegg_coad_rna](https://user-images.githubusercontent.com/1195488/134075648-140db84b-dc9f-46ad-bcfe-ce287590ead6.png)
 
+
+Interestingly, seems like the genes that are highly expressed in colon cancer are found to be highly expressed in other cancer types. Aditionally, seems like genes involved in nutrient absortion are expressed in normal samples, but they are not longer expressed in tumor cells.
