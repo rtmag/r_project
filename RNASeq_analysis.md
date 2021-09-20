@@ -1,4 +1,4 @@
-
+Hi Everyone, in this post I am showing you an example of RNA-Seq analysis for the TCGA dataset of colon adenocarcinoma.
 
 ```R
 library(TCGAbiolinks)
@@ -252,3 +252,67 @@ heatmap.2(sig_vst,
 ```
 
 ![coad_heatmap](https://user-images.githubusercontent.com/1195488/134072567-278296f2-5488-4ff7-a5c9-183b730572b1.png)
+
+Lastly, let's investigate biological pathways that are affected in tumors based on the difference in gene expression.
+```R
+# Let's install cluster profiler
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("clusterProfiler")
+
+# the previous line should install the packages DOSE and enrichplot directly, if not please install them as shown here
+#BiocManager::install("DOSE")
+#BiocManager::install("enrichplot")
+
+# lastly get Genome wide annotation database for Human
+BiocManager::install("org.Hs.eg.db")
+
+
+# load all the packages
+library(clusterProfiler)
+library(DOSE)
+library(enrichplot)
+library("org.Hs.eg.db")
+
+
+# let's extract the names of genes that are highly expressed in tumors
+high_tumor <- rownames(dds_res[ which(dds_res$log2FoldChange>2 & dds_res$padj<0.0001) ,])
+
+# extract the names of genes that are highly expressed in normal samples
+high_normal <- rownames(dds_res[ which(dds_res$log2FoldChange<(-2) & dds_res$padj<0.0001) ,])
+
+# this command translates the gene symbol (gene name) of genes with high expression in tumors into it's ENTREZ ID
+high_tumor.df <- bitr(high_tumor, fromType = "SYMBOL",
+                toType = c("ENTREZID"),
+                OrgDb = org.Hs.eg.db)
+
+# do the same for genes with high expression in normal samples
+high_normal.df <- bitr(high_normal, fromType = "SYMBOL",
+                      toType = c("ENTREZID"),
+                      OrgDb = org.Hs.eg.db)
+
+# let's create a list with both, the ENTREZ ID of genes with high expression in tumor and high expression in normal samples.
+geneEntrez <- list(high_tumor = high_tumor.df$ENTREZID,
+                   high_normal = high_normal.df$ENTREZID
+                   )
+
+# run the pathway analysis to indentify the gene onlogies of biological processes (BP) that are affected in tumor samples.
+GO_BP <- compareCluster(geneEntrez, fun='enrichGO',
+                 OrgDb         = org.Hs.eg.db,
+                 ont           = "BP")
+
+# Plot the results in a nice dotplot
+dotplot(GO_BP, showCategory=15, includeAll=FALSE)
+```
+![gobp_coad_rnaseq](https://user-images.githubusercontent.com/1195488/134075632-a9e8e891-d686-4bf3-b0f8-30d785207d1a.png)
+
+according to gene onlogies (BP) genes that are highly expressed in tumors are involved in processes of epitelial regulation, this could point out towards an early process of the epithelial-to-mesenchymal transition. Genes that are highly expressed in tumor are involved in immune cell recruitmen, having such genes expressed in cancer cells would make immune system evasion more difficult for tumors.
+
+```R
+kegg = compareCluster(geneEntrez, fun="enrichKEGG", organism = "human")
+
+dotplot(kegg, showCategory=15, includeAll=FALSE)
+```
+![kegg_coad_rna](https://user-images.githubusercontent.com/1195488/134075648-140db84b-dc9f-46ad-bcfe-ce287590ead6.png)
+
