@@ -154,3 +154,101 @@ head(dds_res)
 |FGR     |   262.740|       0.112187| 0.1940123|  0.578249| 5.63096e-01| 6.49109e-01|
 
 
+Genes with a differential expression between the two conditions (tumor and normal) are usually defined with thresholds on the log2FC and p-adjusted value. In this case let's used the subjective, but stringent threshold of log2fc > 2 (meaning that the gene is expressed 4 times more in tumors compared to normal samples; or 4 times more expressed in normal vs tumor samples), and a strict threshold on padj < 0.001.
+
+```R
+# We can find the number or genes with more expression in tumor samples with the following line:
+table(dds_res$log2FoldChange>2 & dds_res$padj<0.0001) 
+# FALSE  TRUE 
+# 51623  3158 
+
+# We can find the number of genes with higher expression in normal samples with this line:
+table(dds_res$log2FoldChange<(-2) & dds_res$padj<0.0001) 
+# FALSE  TRUE 
+# 53304  1477 
+```
+
+A popular way to look at the results of a differential expression analysis is with a volcano plot, that combines the log2Fold change and the -log10 P-ajusted values:
+
+```R
+# first we plot all the genes in grey color; pch lets you change the type of symbol that gets plotted
+plot(dds_res$log2FoldChange,-log10(dds_res$padj),
+     xlab="log2 Fold Change",
+     ylab="-log10 P-adjusted values",
+     col=alpha("grey",.5),
+     pch=20)
+
+# we can add some lines to represent the thresholds we used
+abline(v=-2,lty = 2,col="grey")
+abline(v=2,lty = 2,col="grey")
+abline(h=-log10(0.0001),lty = 2,col="grey")
+
+# now let's color the genes that pass those thresholds in red
+points(dds_res$log2FoldChange[abs(dds_res$log2FoldChange) > 2 & dds_res$padj<0.0001],
+       -log10(dds_res$padj)[abs(dds_res$log2FoldChange) > 2 & dds_res$padj<0.0001],
+       col="red",pch=20)
+       
+# lastly, let's add the number of differentially expressed genes to the plot
+legend("topright", paste("Tumor:",length(which(dds_res$log2FoldChange>2 & dds_res$padj<0.0001))), bty="n") 
+legend("topleft", paste("Normal:",length(which(dds_res$log2FoldChange<(-2) & dds_res$padj<0.0001))), bty="n") 
+```
+![coad_volcano](https://user-images.githubusercontent.com/1195488/134067919-5debbcd8-0eec-4390-8266-432a8b4d432e.png)
+
+Another popular way to represent RNA-seq results is with a heatmap:
+```R
+
+# We need to install the following libraries
+
+# has interesting computational mathematic methods; 
+install.packages("factoextra")
+
+# This library contains the heatmap function Gokce described during class
+install.packages("gplots")
+
+# This library allows us to create color palette quickly
+install.packages("RColorBrewer")
+
+library(factoextra)
+library(RColorBrewer)
+library(gplots)
+
+# first we extract from the normalized counts matrix, the genes that are differentially expressed
+sig_vst <- dds_vst[ which(abs(dds_res$log2FoldChange) > 2 & dds_res$padj<0.0001) ,]
+
+# If you see, the resulting object is in a "DESeqTransform" format
+# we can used the function assay() to extract the values in a matrix format
+sig_vst <- assay(sig_vst)
+
+# We can create a color palette, we ask for 9 different colors going from red to blue,
+# then we sub-divide those colors into 20 to add granularity and lastly we reverse the order of the colors
+# so that highly expressed gener are in red and lowly expressed genes are in blue
+colors <- rev(colorRampPalette( brewer.pal(9, "RdBu") )(20))
+
+# Now let's create a color band for the samples based on whether they are tumor or normal:
+col_sample_type <- sample_type
+col_sample_type[ col_sample_type=="Normal" ] <- "darksalmon"
+col_sample_type[ col_sample_type=="Tumor" ] <- "grey5"
+  
+
+# This function plots the heatmap of the normalized expression values for the differentially expressed genes.
+# notice that the distance function (distfun) which controls the formation of the dendograms uses pearson correlation
+# distance measuments from the factoextra library.
+
+# Also, notice that with breaks we are saturating the colors of the heatmap to make the differences more obvious.
+# The range of values wiill go from -1.5 to 1.5
+# The vector provided to breaks needs to be one element longer than the vector of colors uses.
+# In this case 21 because we have 20 colors
+# With ColSideColors, we add a color annotation bar on top where normal samples are colored in dark salmon, while tumor samples are in black/grey
+heatmap.2(sig_vst, 
+          col=colors,
+          breaks=seq(-1.5,1.5,length.out=21),
+          ColSideColors = col_sample_type,
+          scale="row", 
+          trace="none",
+          distfun = function(x) get_dist(x,method="pearson"),
+          labRow = FALSE, labCol = FALSE,
+          xlab="Samples", ylab="Genes",
+          key.title="Gene expression")
+```
+
+![coad_heatmap](https://user-images.githubusercontent.com/1195488/134072567-278296f2-5488-4ff7-a5c9-183b730572b1.png)
