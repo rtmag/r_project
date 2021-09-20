@@ -131,7 +131,14 @@ plotPCA(dds_vst, intgroup=c("sample_type"))
 
 ![COAD_RNASEQ_PCA](https://user-images.githubusercontent.com/1195488/134062705-05ec0a8a-dc6d-4d40-85fa-6333ba8454c9.png)
 
-- Let's take a look at the table with the DEA results
+Let's take a look at the table with the DEA results. The table contains:
+- the gene name. 
+- baseMean; avg. number of read a gene has across all the samples.
+- log2FoldChange; the log2 of the ration between the mean number of reads in one conditions / the other conditions; in this case log2( # reads in tumor / # reads in normal)
+- lfcSE; the standard error.
+- stat; is the Wald statistic (log2FoldChange / lfcSE)
+- pvalue; two-tailed pvalue.
+- padj; adjusted p-value to account for multiple testing.
 
 ```R
 head(dds_res)
@@ -145,4 +152,5 @@ head(dds_res)
 |SCYL3   |   534.267|      -0.275480| 0.0695965| -3.958242| 7.55035e-05| 2.16260e-04|
 |C1orf112|   359.812|       1.247564| 0.0911147| 13.692232| 1.12984e-42| 6.74517e-41|
 |FGR     |   262.740|       0.112187| 0.1940123|  0.578249| 5.63096e-01| 6.49109e-01|
+
 
