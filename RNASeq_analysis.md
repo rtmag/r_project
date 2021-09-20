@@ -117,3 +117,32 @@ saveRDS(dds_vst,"/astar/r_proj/coad_dds_vst.rds")
 saveRDS(coad,"/astar/r_proj/coad_SummarizedExp.rds")
 
 ```
+
+- Now that we have the results of the differential expression analysis, let's move to some downstream analysis; including some stuff you saw in class.
+
+```R
+# before looking at the results of the DEA, I reccomend to take a look of the PCA
+# we can do this easily with the in-bult function to calculate and plot PCA in DESEQ2
+# pass the argument of intgroup to color the samples by sample_type
+plotPCA(dds_vst, intgroup=c("sample_type"))
+
+# Not surprising the expression profiles of tumor samples are quite different from normal samples.
+```
+
+![COAD_RNASEQ_PCA](https://user-images.githubusercontent.com/1195488/134062705-05ec0a8a-dc6d-4d40-85fa-6333ba8454c9.png)
+
+- Let's take a look at the table with the DEA results
+
+```R
+
+|        |  baseMean |log2FoldChange|lfcSE   |  stat   |  pvalue   |    padj |
+|-------|---------|---------------|----------|---------|-----------|---------|
+|       | <numeric>|  <numeric>   |<numeric> |<numeric>|  <numeric>|<numeric>|
+|-------|---------|---------------|----------|---------|-----------|---------|
+|TSPAN6  |  5223.831|       0.469351| 0.1448638|  3.239943| 1.19554e-03| 2.77616e-03|
+|TNMD    |    42.246|       0.424439| 0.3011284|  1.409495| 1.58689e-01| 2.29012e-01|
+|DPM1    |  1747.475|       0.858998| 0.1125037|  7.635284| 2.25322e-14| 1.92205e-13|
+|SCYL3   |   534.267|      -0.275480| 0.0695965| -3.958242| 7.55035e-05| 2.16260e-04|
+|C1orf112|   359.812|       1.247564| 0.0911147| 13.692232| 1.12984e-42| 6.74517e-41|
+|FGR     |   262.740|       0.112187| 0.1940123|  0.578249| 5.63096e-01| 6.49109e-01|
+
