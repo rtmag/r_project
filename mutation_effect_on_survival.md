@@ -21,7 +21,7 @@ tcga_projects <- sort(tcga_projects) # This sorts them alphabetically
 maf_list <- readRDS("/astar/r_proj/maflist.RDS")
 
 # Threshold on the number of samples that must have the gene mutated to be considered
-mutation_thr = .2 # 20% of the samples
+mutation_thr = .1 # 10% of the samples
 
 surv_pvals_list <- list()
 
@@ -107,7 +107,7 @@ for(i in 1:length(tcga_projects) ){
 sig_surv_pval <- surv_pvals_list
 
 for(x in 1:length(sig_surv_pval)){
-  surv_pvals_list[[x]] <- surv_pvals_list[[x]][surv_pvals_list[[x]]< 0.00001]
+  surv_pvals_list[[x]] <- surv_pvals_list[[x]][surv_pvals_list[[x]]<0.01]
   surv_pvals_list[[x]] <- sort(surv_pvals_list[[x]], decreasing = FALSE)
 }
 ```
