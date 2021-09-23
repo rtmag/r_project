@@ -58,7 +58,7 @@ for(i in 1:length(tcga_projects) ){
   
   ################ Parse mutation (maf) data  ################ 
   # get sample size
-  sample_size <- dim(maf_list[[1]]@clinical.data)[1]
+  sample_size <- dim(maf_list[[i]]@clinical.data)[1]
   
   # get genes to consider based on the mutation threshold
   genes2consider <- maf_list[[i]]@gene.summary$Hugo_Symbol[ (maf_list[[i]]@gene.summary$MutatedSamples / sample_size) > mutation_thr ]
@@ -100,3 +100,15 @@ for(i in 1:length(tcga_projects) ){
   names(surv_pvals_list)[i] <- tcga_projects[i]
 }
 ```
+
+- Check for only significant pvals
+```R
+# keep only significant pvals
+sig_surv_pval <- surv_pvals_list
+
+for(x in 1:length(sig_surv_pval)){
+  surv_pvals_list[[x]] <- surv_pvals_list[[x]][surv_pvals_list[[x]]< 0.00001]
+  surv_pvals_list[[x]] <- sort(surv_pvals_list[[x]], decreasing = FALSE)
+}
+```
+
