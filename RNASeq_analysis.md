@@ -1,3 +1,64 @@
+Downloading the RNA-Seq data for UVM and UCEC
+```R
+# set wd
+setwd("/astar/r_proj/")
+
+# load libraries
+library(TCGAbiolinks)
+library("SummarizedExperiment")
+
+# UCEC
+
+# prepare the query
+query_TCGA <- GDCquery(
+  project = "TCGA-UCEC",
+  data.category = "Transcriptome Profiling", # parameter enforced by GDCquery
+  experimental.strategy = "RNA-Seq",
+  workflow.type = "HTSeq - Counts")
+
+# download the data
+GDCdownload(query = query_TCGA)
+
+# prepare data
+ucec <- GDCprepare(query_TCGA)
+
+# save it into an RDS
+saveRDS(ucec, "ucec_rnaseq.rds")
+
+# delete everything just to be safe
+rm(list = ls())
+
+# UVM
+
+# prepare the query
+query_TCGA <- GDCquery(
+  project = "TCGA-UVM",
+  data.category = "Transcriptome Profiling", # parameter enforced by GDCquery
+  experimental.strategy = "RNA-Seq",
+  workflow.type = "HTSeq - Counts")
+
+# download the data
+GDCdownload(query = query_TCGA)
+
+# prepare data
+uvm <- GDCprepare(query_TCGA)
+
+# save it into an RDS
+saveRDS(uvm, "uvm_rnaseq.rds")
+
+```
+
+- Remember you can re-load these objects with readRDS()
+
+```R
+ucec <- readRDS("ucec_rnaseq.rds")
+
+uvm <- readRDS("uvm_rnaseq.rds")
+```
+
+
+---------
+
 Hi Everyone, in this post I am showing you an example of RNA-Seq analysis for the TCGA dataset of colon adenocarcinoma.
 
 ```R
