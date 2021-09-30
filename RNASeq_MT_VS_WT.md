@@ -63,6 +63,9 @@ uvm_exp_tumors <- uvm_exp[, grep("Normal",uvm$sample_type, invert = TRUE)]
 mutation_annotation <- colnames(uvm_exp_tumors)
 mutation_annotation[ mutation_annotation %in% wt] <- "GNAQ_WT"
 mutation_annotation[ mutation_annotation %in% mut] <- "GNAQ_MUT"
+
+# check that you have mutation info for all the samples in the RNA-Seq matrix
+table(mutation_annotation)
 ```
 - From here on the analysis is similar to the one observed in WT vs NORMAL samples:
 
