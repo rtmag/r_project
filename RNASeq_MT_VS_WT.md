@@ -171,7 +171,79 @@ legend("topleft", paste("WT:",length(which(dds_res$log2FoldChange<(-1) & dds_res
 
 ![uvm_mt_wt_volcano](https://user-images.githubusercontent.com/1195488/135441400-17f9354e-4260-4388-95d7-746d1befa03c.png)
 
+
+- Let's check how it looks on a heatmap
 ```R
+library(factoextra)
+library(RColorBrewer)
+library(gplots)
+
+# first we extract from the normalized counts matrix, the genes that are differentially expressed
+sig_vst <- dds_vst[ which(abs(dds_res$log2FoldChange) > 1 & dds_res$padj<0.01) ,]
+
+# If you see, the resulting object is in a "DESeqTransform" format
+# we can used the function assay() to extract the values in a matrix format
+sig_vst <- assay(sig_vst)
+
+# We can create a color palette, we ask for 9 different colors going from red to blue,
+# then we sub-divide those colors into 20 to add granularity and lastly we reverse the order of the colors
+# so that highly expressed gener are in red and lowly expressed genes are in blue
+colors <- rev(colorRampPalette( brewer.pal(9, "RdBu") )(20))
+
+# Now let's create a color band for the samples based on whether they are tumor or normal:
+col_sample_type <- mutation_annotation
+col_sample_type[ col_sample_type=="GNAQ_WT" ] <- "darksalmon"
+col_sample_type[ col_sample_type=="GNAQ_MUT" ] <- "grey5"
+ 
+
+# heatmap
+heatmap.2(sig_vst, 
+          col=colors,
+          breaks=seq(-1.5,1.5,length.out=21),
+          ColSideColors = col_sample_type,
+          scale="row", 
+          trace="none",
+          distfun = function(x) get_dist(x,method="pearson"),
+          labRow = FALSE, labCol = FALSE,
+          xlab="Samples", ylab="Genes",
+          key.title="Gene expression")
+```
+![relaxed](https://user-images.githubusercontent.com/1195488/135443055-8e9858dd-f285-4dee-89e2-e5a286a4e044.png)
+
+
+- The results above look very heterogeneous, let's try with more strict thresholds
+
+```R
+# first we extract from the normalized counts matrix, the genes that are differentially expressed
+sig_vst <- dds_vst[ which(abs(dds_res$log2FoldChange) > 2 & dds_res$padj<0.0001) ,]
+
+# If you see, the resulting object is in a "DESeqTransform" format
+# we can used the function assay() to extract the values in a matrix format
+sig_vst <- assay(sig_vst)
+
+# We can create a color palette, we ask for 9 different colors going from red to blue,
+# then we sub-divide those colors into 20 to add granularity and lastly we reverse the order of the colors
+# so that highly expressed gener are in red and lowly expressed genes are in blue
+colors <- rev(colorRampPalette( brewer.pal(9, "RdBu") )(20))
+
+# Now let's create a color band for the samples based on whether they are tumor or normal:
+col_sample_type <- mutation_annotation
+col_sample_type[ col_sample_type=="GNAQ_WT" ] <- "darksalmon"
+col_sample_type[ col_sample_type=="GNAQ_MUT" ] <- "grey5"
+
+
+# heatmap
+heatmap.2(sig_vst, 
+          col=colors,
+          breaks=seq(-2.5,2.5,length.out=21),
+          ColSideColors = col_sample_type,
+          scale="row", 
+          trace="none",
+          distfun = function(x) get_dist(x,method="pearson"),
+           labCol = FALSE,
+          xlab="Samples", ylab="",
+          key.title="Gene expression")
 
 
 ```
+![strict](https://user-images.githubusercontent.com/1195488/135443036-f933f2c4-9b82-4791-b28e-46ca0ed02021.png)
