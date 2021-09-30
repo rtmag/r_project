@@ -58,6 +58,7 @@ wt <- samples_id[ !(samples_id %in% mut) ]
 # for that we keep in our RNA-Seq matrix only samples that are not normal
 uvm_exp_tumors <- uvm_exp[, grep("Normal",uvm$sample_type, invert = TRUE)]
 
+
 # annotate what samples in the uvm expression tumor matrix are wt and whcih ones are mutant samples 
 mutation_annotation <- colnames(uvm_exp_tumors)
 mutation_annotation[ mutation_annotation %in% wt] <- "GNAQ_WT"
